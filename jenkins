@@ -3,7 +3,18 @@ pipeline {
          stages {
                  stage('One') {
                  steps {
-                    s3Upload(file:'temp.txt', bucket:'qbanglore3june', path:'/home/jenkins-slave-01/workspace/demoPipe/temp.txt')
+                    s3Upload(entries : [file:'temp.txt', bucket:'qbanglore3june',
+                    path:'/home/jenkins-slave-01/workspace/demoPipe/temp.txt'],
+                    profileName: 's3Plugin',dontWaitForConcurrentBuildCompletion: true,
+                    consoleLogLevel: 'INFO',
+                    pluginFailureResultConstraint: 'FAILURE',
+                    userMetadata: [ [key: 'gitCommit', value: env.GIT_COMMIT], 
+                    [key: 'gitPreviousCommit', value: env.GIT_PREVIOUS_COMMIT],
+                    [key: 'gitLastSuccessfulBuildCommit',
+                    value: env.GIT_PREVIOUS_SUCCESSFUL_COMMIT],
+                    [key: 'gitBranch', value: env.GIT_BRANCH],
+                    [key: 'gitRepo', value: env.GIT_URL],
+                    [key: 'buildUrl', value: env.BUILD_URL]])
                  }
                  }
          }
