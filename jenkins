@@ -1,0 +1,10 @@
+pipeline {
+         agent any
+         stages {
+                 stage('One') {
+                 steps {
+                    s3Upload(file:'temp.txt', bucket:'qbanglore3june', path:'/home/jenkins-slave-01/workspace/demoPipe/temp.txt')
+                 }
+                 }
+         }
+}
